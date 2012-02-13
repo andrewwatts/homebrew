@@ -40,6 +40,10 @@ class Nginx < Formula
       exit
   end
 
+  def geoip_validation
+      return "--with-http_geoip_module"
+  end
+
   def install
     args = ["--prefix=#{prefix}",
             "--with-http_ssl_module",
@@ -50,6 +54,7 @@ class Nginx < Formula
 
     args << passenger_config_args if ARGV.include? '--with-passenger'
     args << "--with-http_dav_module" if ARGV.include? '--with-webdav'
+    args << geoip_validation if ARGV.include? '--with-geoip'
 
     system "./configure", *args
     system "make"
